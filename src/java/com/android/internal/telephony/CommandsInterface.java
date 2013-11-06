@@ -29,10 +29,28 @@ public interface CommandsInterface {
     enum RadioState {
         RADIO_OFF,         /* Radio explicitly powered off (eg CFUN=0) */
         RADIO_UNAVAILABLE, /* Radio unavailable (eg, resetting or not booted) */
+        SIM_NOT_READY,     /* Radio is on, but the SIM interface is not ready */
+        SIM_LOCKED_OR_ABSENT,  /* SIM PIN locked, PUK required, network
+                                     personalization, or SIM absent */
+        SIM_READY,         /* Radio is on and SIM interface is available */
+        RUIM_NOT_READY,    /* Radio is on, but the RUIM interface is not ready */
+        RUIM_READY,        /* Radio is on and the RUIM interface is available */
+        RUIM_LOCKED_OR_ABSENT, /* RUIM PIN locked, PUK required, network
+                                     personalization locked, or RUIM absent */
+        NV_NOT_READY,      /* Radio is on, but the NV interface is not available */
+        NV_READY,          /* Radio is on and the NV interface is available */
         RADIO_ON;          /* Radio is on */
 
         public boolean isOn() /* and available...*/ {
-            return this == RADIO_ON;
+            return this == RADIO_ON
+                    || this == SIM_NOT_READY
+                    || this == SIM_LOCKED_OR_ABSENT
+                    || this == SIM_READY
+                    || this == RUIM_NOT_READY
+                    || this == RUIM_READY
+                    || this == RUIM_LOCKED_OR_ABSENT
+                    || this == NV_NOT_READY
+                    || this == NV_READY;
         }
 
         public boolean isAvailable() {
